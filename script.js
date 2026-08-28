@@ -3,6 +3,8 @@ const addTask= document.getElementById('addTask');
 const taskList = document.getElementById('taskList');
 const errorMessage = document.getElementById('errorMessage');
 
+let tasks=JSON.parse(localStorage.getItem('tasks')) || [];
+
 addTask.addEventListener('click' , AddTask);
 
 taskInput.addEventListener('keydown', function(event) {
@@ -21,46 +23,88 @@ function AddTask() {
 
     errorMessage.textContent = "";
 
-    const taskItem =document.createElement("li");
-    taskItem.classList.add("task-item");
+    const newTask={id: Date.now(), text: taskText, completed:false};
 
-    const taskTextElement = document.createElement("span");
-    taskTextElement.classList.add("task-text");
-    taskTextElement.textContent = taskText;
+    tasks.push(newTask);
 
-    const taskActions=document.createElement("div");
-    taskActions.classList.add("task-actions");
+    saveTasks();
+    renderTasks();
 
-    const completeButton = document.createElement("button");
-    completeButton.classList.add("complete-button");
-    completeButton.textContent = "Complete";
-
-    const deleteButton =document.createElement("button");
-    deleteButton.classList.add("delete-button");
-    deleteButton.textContent = "Delete";
-
-    completeButton.addEventListener('click',function(){
-        taskItem.classList.toggle('completed');
-
-        if(taskItem.classList.contains('completed')){
-            completeButton.textContent = 'Undo';
-        } else {
-            completeButton.textContent = 'Complete';
-        }
-    });
-
-    deleteButton.addEventListener('click',function(){
-        taskItem.remove();
-    })
-
-    taskActions.appendChild(completeButton);
-    taskActions.appendChild(deleteButton);
-
-    taskItem.appendChild(taskTextElement);
-    taskItem.appendChild(taskActions);
-
-    taskList.appendChild(taskItem);
-    
     taskInput.value = '';
     taskInput.focus();
+
 }
+
+function saveTasks(){
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function renderTasks(){
+    taskList.innerHTML = '';
+
+    tasks.forEach(task => {
+        const taskItem = document.createElement('li');
+        taskItem.className= 'task-item';
+
+        if(task.completed){
+            taskItem.classList.add('completed');
+        }
+
+        const taskText = document.createElement('span');
+        taskText.className= 'task-text';
+        taskText.textContent = task.text;
+
+        const taskActions = document.createElement('div');
+        taskActions.className = 'task-actions';
+
+        const completeButton = document.createElement("button");
+        completeButton.classList.add("complete-button");
+        completeButton.textContent = task.completed ? "Undo": "Complete";
+
+        completeButton.addEventListener('click', function() {
+            toggleTask(task.id);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delete-button");
+        deleteButton.textContent = "Delete";    
+
+        deleteButton.addEventListener('click', function() {
+            deleteTask(task.id);
+        });
+
+        taskActions.appendChild(completeButton);
+        taskActions.appendChild(deleteButton);
+
+        taskItem.appendChild(taskText);
+        taskItem.appendChild(taskActions);
+
+        taskList.appendChild(taskItem);
+
+    });
+}
+
+function toggleTask(taskId) {
+    const selectedTask = tasks.find(function (task) {
+        return task.id === taskId;
+    });
+
+    if (selectedTask) {
+        selectedTask.completed = !selectedTask.completed;
+
+        saveTasks();
+        renderTasks();
+    }
+}
+
+function deleteTask(taskId) {
+    tasks = tasks.filter(function (task) {
+        return task.id !== taskId;
+    });
+
+    saveTasks();
+    renderTasks();
+}
+
+renderTasks();
+    
