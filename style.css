@@ -33,7 +33,7 @@ h1 {
 }
 
 
-.task-input{
+.taskInputSection{
     display: flex;
     gap: 10px;
 }
@@ -97,4 +97,21 @@ h1 {
     #addTaskButton {
         width: 100%;
     }
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 10px;
+    padding: 13px 15px;
+
+    color: var(--text);
+    font-family: Arial, sans-serif;
+
+    background-color: #fffdf7;
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--sage);
+    border-radius: 7px;
 }
