@@ -210,3 +210,40 @@ h1 {
     background-color: var(--sage);
     border-color: var(--sage);
 }
+
+.task-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 18px;
+    padding-top: 15px;
+
+    color: var(--text);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+
+    border-top: 1px solid var(--border);
+}
+
+#clearCompletedButton {
+    padding: 7px 10px;
+
+    color: var(--error);
+    font-weight: bold;
+
+    background-color: transparent;
+    border: 1px solid var(--error);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clearCompletedButton:hover:not(:disabled) {
+    color: white;
+    background-color: var(--error);
+}
+
+#clearCompletedButton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
