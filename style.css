@@ -97,6 +97,21 @@ h1 {
     #addTaskButton {
         width: 100%;
     }
+
+    .task-item {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-actions {
+    width: 100%;
+}
+
+.complete-button,
+.delete-button {
+    flex: 1;
+}
 }
 
 .task-item {
@@ -114,4 +129,53 @@ h1 {
     border: 1px solid var(--border);
     border-left: 5px solid var(--sage);
     border-radius: 7px;
+}
+
+.task-text {
+    flex: 1;
+    margin-right: 12px;
+    overflow-wrap: anywhere;
+}
+
+.task-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.complete-button,
+.delete-button {
+    padding: 7px 10px;
+
+    color: white;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.complete-button {
+    background-color:#758467 ;
+}
+
+.complete-button:hover {
+    background-color: #5c6951;
+}
+
+.delete-button {
+    background-color: #a44a3f;
+}
+
+.delete-button:hover {
+    background-color: #843b33;
+}
+
+/* Applied by JavaScript when Done is clicked */
+.task-item.completed {
+    opacity: 0.65;
+    background-color: #e9e3d5;
+}
+
+.task-item.completed .task-text {
+    text-decoration: line-through;
 }
